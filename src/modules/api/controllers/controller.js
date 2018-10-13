@@ -93,6 +93,10 @@ exports.read = function(req, res) {
 };
 
 exports.update = function(req, res) {
+
+  // For security measurement we remove the roles from the req.body object
+  delete req.body.roles;
+
   var mongooseModel = _.extend(req.data, req.body);
   mongooseModel.updated = new Date();
   mongooseModel.updateby = req.user;
@@ -141,6 +145,9 @@ exports.getUser = function(req, res) {
  * Signup
  */
 exports.signup = function(req, res, next) {
+  // For security measurement we remove the roles from the req.body object
+  delete req.body.roles;
+
   var user = new Model(req.body);
   // // Add missing user fields
   user.provider = user.provider ? user.provider : "local";
