@@ -157,7 +157,7 @@ describe(_model + ' Authentication routes tests', function () {
                     return done(err);
                 }
                 request(app)
-                    .get('/api/getuser')
+                    .get('/api/me')
                     .set('Authorization', 'Bearer ' + res.body.token)
                     .expect(200)
                     .end(function (err, res) {
@@ -171,6 +171,84 @@ describe(_model + ' Authentication routes tests', function () {
                         assert.equal(resp.data.lastName, credentials.lastName);
                         assert.equal(resp.data.email, credentials.email);
                         assert.equal(resp.data.displayName, credentials.firstName + ' ' + credentials.lastName);
+                        done();
+                    });
+            });
+
+    });
+
+    it('should be ' + _model + ' get profile regitered use token', function (done) {
+        credentials = {
+            username: "username2",
+            password: "password",
+            firstName: "firstname2",
+            lastName: "lastname2",
+            email: "test@emai2l.com"
+        };
+        request(app)
+            .post('/api/auth/signup')
+            .send(credentials)
+            .expect(200)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err);
+                }
+                request(app)
+                    .get('/api/me')
+                    .set('Authorization', 'Bearer ' + res.body.token)
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (err) {
+                            return done(err);
+                        }
+                        var resp = res.body;
+                        assert.equal(resp.status, 200);
+                        assert.equal(resp.data.username, credentials.username);
+                        assert.equal(resp.data.firstName, credentials.firstName);
+                        assert.equal(resp.data.lastName, credentials.lastName);
+                        assert.equal(resp.data.email, credentials.email);
+                        assert.equal(resp.data.displayName, credentials.firstName + ' ' + credentials.lastName);
+                        done();
+                    });
+            });
+
+    });
+
+    it('should be ' + _model + ' update profile regitered use token', function (done) {
+        credentials = {
+            username: "username2",
+            password: "password",
+            firstName: "firstname2",
+            lastName: "lastname2",
+            email: "test@emai2l.com"
+        };
+        request(app)
+            .post('/api/auth/signin')
+            .send(credentials)
+            .expect(200)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err);
+                }
+
+                credentials.ref1 = "1234567890123"
+                request(app)
+                    .put('/api/me')
+                    .set('Authorization', 'Bearer ' + res.body.token)
+                    .send(credentials)
+                    .expect(200)
+                    .end(function (err, res) {
+                        if (err) {
+                            return done(err);
+                        }
+                        var resp = res.body;
+                        assert.equal(resp.status, 200);
+                        assert.equal(resp.data.username, credentials.username);
+                        assert.equal(resp.data.firstName, credentials.firstName);
+                        assert.equal(resp.data.lastName, credentials.lastName);
+                        assert.equal(resp.data.email, credentials.email);
+                        assert.equal(resp.data.displayName, credentials.firstName + ' ' + credentials.lastName);
+                        assert.equal(resp.data.ref1, credentials.ref1);
                         done();
                     });
             });
