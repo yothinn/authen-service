@@ -141,39 +141,6 @@ exports.signup = function (req, res, next) {
     });
 };
 
-/**
- * Signin after passport authentication
- */
-// exports.signin = function (req, res, next) {
-//     Model.findOne({
-//         username: req.body.username
-//     })
-//         .exec(function (err, user) {
-//             if (err) {
-//                 return res.status(401).send({
-//                     status: 401,
-//                     message: 'User not found.'
-//                 });
-//             } else if (!user) {
-//                 return res.status(401).send({
-//                     status: 401,
-//                     message: 'User not found.'
-//                 });
-//             }
-//             bcrypt.compare(req.body.password, user.password, function (err, result) {
-//                 if (result === true) {
-//                     req.user = user;
-//                     next();
-//                 } else {
-//                     return res.status(401).send({
-//                         status: 401,
-//                         message: 'Password is invalid.'
-//                     });
-//                 }
-//             });
-//         });
-// };
-
 exports.signin = function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
         if (err || !user) {

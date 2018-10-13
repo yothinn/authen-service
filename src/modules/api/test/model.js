@@ -16,7 +16,9 @@ describe(_model + ' Model save tests', function () {
             email: '_test@test.com',
             username: '_username',
             password: '1',
-            provider: 'local'
+            provider: 'local',
+            ref1: 'ref1',
+            ref2: 'ref2'
         };
         done();
     });
