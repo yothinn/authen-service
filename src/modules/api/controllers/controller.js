@@ -26,6 +26,11 @@ exports.getList = function(req, res) {
 };
 
 exports.create = function(req, res) {
+  // Add missing user fields
+  req.body.provider = req.body.provider ? req.body.provider : "local";
+  req.body.displayName = req.body.firstName + " " + req.body.lastName;
+
+
   var mongooseModel = new Model(req.body);
   mongooseModel.createby = req.user;
   mongooseModel.save(function(err, data) {
