@@ -47,4 +47,8 @@ glob.sync(path.join(__dirname, '../modules/**/strategy/*.js')).forEach(function 
     require(path.resolve(file))(app);
 });
 
+glob.sync(path.join(__dirname, '../modules/**/policy/*.js')).forEach(function (file) {
+    require(path.resolve(file)).invokeRolesPolicies();
+});
+
 module.exports = app;
