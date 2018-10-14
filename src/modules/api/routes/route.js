@@ -1,20 +1,17 @@
 "use strict";
-var _model = require("../models/model").model,
-  controller = require("../controllers/controller"),
+var controller = require("../controllers/controller"),
   policy = require("../policy/policy");
 module.exports = function(app) {
-  var url = "/api/" + _model;
-  var urlWithParam = "/api/" + _model + "/:" + _model + "id";
-
+  
   // for admin manage users
   app
-    .route(url)
+    .route("/api/users")
     .all(policy.isAllowed)
     .get(controller.getList)
     .post(controller.create);
 
   app
-    .route(urlWithParam)
+    .route("/api/users/:userId")
     .all(policy.isAllowed)
     .get(controller.read)
     .put(controller.update)
@@ -31,5 +28,5 @@ module.exports = function(app) {
   app.route("/api/auth/signup").post(controller.signup, controller.token);
   app.route("/api/auth/signin").post(controller.signin, controller.token);
 
-  app.param(_model + "id", controller.getByID);
+  app.param("userId", controller.getByID);
 };
