@@ -13,6 +13,7 @@
   "author": "sarayut.kungsaranuwat@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "acl": "^0.4.11",
     "bcrypt": "^2.0.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",

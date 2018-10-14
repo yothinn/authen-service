@@ -86,6 +86,11 @@ exports.getByID = function(req, res, next, id) {
 };
 
 exports.read = function(req, res) {
+  //Remove sensitive data
+  delete req.data.password;
+  delete req.data.salt;
+  delete req.data.loginToken;
+
   res.jsonp({
     status: 200,
     data: req.data ? req.data : []
@@ -93,6 +98,13 @@ exports.read = function(req, res) {
 };
 
 exports.update = function(req, res) {
+
+  // For security measurement we remove the roles from the req.body object
+  var roles = req.user.roles;
+  if(roles.indexOf("admin") == -1){
+    delete req.body.roles;
+  }
+  
   var mongooseModel = _.extend(req.data, req.body);
   mongooseModel.updated = new Date();
   mongooseModel.updateby = req.user;
@@ -127,20 +139,14 @@ exports.delete = function(req, res) {
   });
 };
 
-exports.getUser = function(req, res) {
-  req.user.password = undefined;
-  req.user.salt = undefined;
-  req.user.loginToken = undefined;
-  res.jsonp({
-    status: 200,
-    data: req.user
-  });
-};
 
 /**
  * Signup
  */
 exports.signup = function(req, res, next) {
+  // For security measurement we remove the roles from the req.body object
+  delete req.body.roles;
+
   var user = new Model(req.body);
   // // Add missing user fields
   user.provider = user.provider ? user.provider : "local";
@@ -166,17 +172,6 @@ exports.signin = function(req, res, next) {
       res.status(400).send(info);
     } else {
       req.user = user;
-      // Remove sensitive data before login
-      // user.password = undefined;
-      // user.salt = undefined;
-
-      // req.login(user, function (err) {
-      //     if (err) {
-      //         res.status(400).send(err);
-      //     } else {
-      //         res.json(user);
-      //     }
-      // });
       next();
     }
   })(req, res, next);
