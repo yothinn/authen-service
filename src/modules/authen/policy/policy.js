@@ -27,7 +27,7 @@ exports.invokeRolesPolicies = function() {
       ]
     },
     {
-      roles: ["user"],
+      roles: ["user", "owner", "staff"],
       allows: [
         {
           resources: "/api/me",
