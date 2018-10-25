@@ -84,7 +84,7 @@ var ModelSchema = new Schema({
     type: [
       {
         type: String,
-        enum: ["user", "staff", "admin"]
+        // enum: ["user", "staff", "admin"]
       }
     ],
     default: ["user"],

@@ -156,6 +156,13 @@ exports.signup = function(req, res, next) {
   // // Add missing user fields
   user.provider = user.provider ? user.provider : "local";
   user.displayName = user.firstName + " " + user.lastName;
+  
+  /**
+   * กรณี Owner จะส่ง Ref1 & Ref2
+   */
+  if(user.ref1 && user.ref2){
+    user.roles = ["owner"];
+  }
 
   // Then save the user
   user.save(function(err, resUser) {
