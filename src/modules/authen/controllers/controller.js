@@ -161,7 +161,7 @@ exports.signup = function(req, res, next) {
    * กรณี Owner จะส่ง Ref1 & Ref2
    */
   if(user.ref1 && user.ref2){
-    user.roles = ["owner"]
+    user.roles = ["owner"];
   }
 
   // Then save the user
