@@ -23,7 +23,7 @@ module.exports = function () {
                 }
                 if (!user) {
                     return done(null, false, {
-                        message: 'User not found.'
+                        message: 'Username or Password is invalid.'
                     });
                 }
                 bcrypt.compare(password, user.password, function (err, result) {
@@ -31,9 +31,8 @@ module.exports = function () {
                         return done(null, user);
                         next();
                     } else {
-                        return res.status(401).send({
-                            status: 401,
-                            message: 'Password is invalid.'
+                        return done(null, false, {
+                            message: 'Username or Password is invalid.'
                         });
                     }
                 });
