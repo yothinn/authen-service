@@ -16,19 +16,19 @@ var validateLocalStrategyEmail = function(email) {
 };
 
 var ModelSchema = new Schema({
-  firstName: {
+  firstname: {
     type: String,
     trim: true,
     default: "",
     required: "Please fill in your first name"
   },
-  lastName: {
+  lastname: {
     type: String,
     trim: true,
     default: "",
     required: "Please fill in your last name"
   },
-  displayName: {
+  displayname: {
     type: String,
     trim: true
   },

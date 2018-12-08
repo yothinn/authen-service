@@ -28,7 +28,7 @@ exports.getList = function(req, res) {
 exports.create = function(req, res) {
   // Add missing user fields
   req.body.provider = req.body.provider ? req.body.provider : "local";
-  req.body.displayName = req.body.firstName + " " + req.body.lastName;
+  req.body.displayname = req.body.firstname + " " + req.body.lastname;
 
 
   var mongooseModel = new Model(req.body);
@@ -155,7 +155,7 @@ exports.signup = function(req, res, next) {
   var user = new Model(req.body);
   // // Add missing user fields
   user.provider = user.provider ? user.provider : "local";
-  user.displayName = user.firstName + " " + user.lastName;
+  user.displayname = user.firstname + " " + user.lastname;
   
   /**
    * กรณี Owner จะส่ง Ref1 & Ref2
