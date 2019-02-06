@@ -129,7 +129,7 @@ exports.update = function (req, res) {
       });
     }
   });
-};
+}; 
 
 exports.delete = function (req, res) {
   req.data.remove(function (err, data) {
