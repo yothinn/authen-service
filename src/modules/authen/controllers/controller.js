@@ -9,8 +9,8 @@ var mongoose = require("mongoose"),
   bcrypt = require("bcrypt"),
   config = require("../../../config/config");
 
-exports.getList = function(req, res) {
-  Model.find(function(err, datas) {
+exports.getList = function (req, res) {
+  Model.find(function (err, datas) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -25,7 +25,7 @@ exports.getList = function(req, res) {
   });
 };
 
-exports.create = function(req, res) {
+exports.create = function (req, res) {
   // Add missing user fields
   req.body.provider = req.body.provider ? req.body.provider : "local";
   req.body.displayname = req.body.firstname + " " + req.body.lastname;
@@ -33,7 +33,7 @@ exports.create = function(req, res) {
 
   var mongooseModel = new Model(req.body);
   mongooseModel.createby = req.user;
-  mongooseModel.save(function(err, data) {
+  mongooseModel.save(function (err, data) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -48,7 +48,7 @@ exports.create = function(req, res) {
   });
 };
 
-exports.me = function(req, res, next) {
+exports.me = function (req, res, next) {
   var id = req.user._id;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
@@ -56,7 +56,7 @@ exports.me = function(req, res, next) {
       message: "Id is invalid"
     });
   }
-  Model.findById(id, function(err, data) {
+  Model.findById(id, function (err, data) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -69,7 +69,7 @@ exports.me = function(req, res, next) {
   });
 };
 
-exports.getByID = function(req, res, next, id) {
+exports.getByID = function (req, res, next, id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
       status: 400,
@@ -77,7 +77,7 @@ exports.getByID = function(req, res, next, id) {
     });
   }
 
-  Model.findById(id, function(err, data) {
+  Model.findById(id, function (err, data) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -90,7 +90,7 @@ exports.getByID = function(req, res, next, id) {
   });
 };
 
-exports.read = function(req, res) {
+exports.read = function (req, res) {
   //Remove sensitive data
   delete req.data.password;
   delete req.data.salt;
@@ -102,18 +102,18 @@ exports.read = function(req, res) {
   });
 };
 
-exports.update = function(req, res) {
+exports.update = function (req, res) {
 
   // For security measurement we remove the roles from the req.body object
   var roles = req.user.roles;
-  if(roles.indexOf("admin") == -1){
+  if (roles.indexOf("admin") == -1) {
     delete req.body.roles;
   }
-  
+  delete req.body.password //pure update 
   var mongooseModel = _.extend(req.data, req.body);
   mongooseModel.updated = new Date();
   mongooseModel.updateby = req.user;
-  mongooseModel.save(function(err, data) {
+  mongooseModel.save(function (err, data) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -128,8 +128,8 @@ exports.update = function(req, res) {
   });
 };
 
-exports.delete = function(req, res) {
-  req.data.remove(function(err, data) {
+exports.delete = function (req, res) {
+  req.data.remove(function (err, data) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -148,7 +148,7 @@ exports.delete = function(req, res) {
 /**
  * Signup
  */
-exports.signup = function(req, res, next) {
+exports.signup = function (req, res, next) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
 
@@ -156,16 +156,16 @@ exports.signup = function(req, res, next) {
   // // Add missing user fields
   user.provider = user.provider ? user.provider : "local";
   user.displayname = user.firstname + " " + user.lastname;
-  
+
   /**
    * กรณี Owner จะส่ง Ref1 & Ref2
    */
-  if(user.ref1 && user.ref2){
+  if (user.ref1 && user.ref2) {
     user.roles = ["owner"];
   }
 
   // Then save the user
-  user.save(function(err, resUser) {
+  user.save(function (err, resUser) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -178,8 +178,8 @@ exports.signup = function(req, res, next) {
   });
 };
 
-exports.signin = function(req, res, next) {
-  passport.authenticate("local", function(err, user, info) {
+exports.signin = function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
     if (err || !user) {
       res.status(400).send(info);
     } else {
@@ -189,7 +189,7 @@ exports.signin = function(req, res, next) {
   })(req, res, next);
 };
 
-exports.token = function(req, res) {
+exports.token = function (req, res) {
   var user = req.user;
   user.password = undefined;
   user.salt = undefined;
