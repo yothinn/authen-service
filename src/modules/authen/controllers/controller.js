@@ -64,10 +64,7 @@ exports.me = function (req, res, next) {
       });
     } else {
       req.data = data ? data : {};
-      //Remove sensitive data
-      req.data.password = undefined;
-      req.data.salt = undefined;
-      req.data.loginToken = undefined;
+
       next();
     }
   });
@@ -99,6 +96,10 @@ exports.getByID = function (req, res, next, id) {
 };
 
 exports.read = function (req, res) {
+  //Remove sensitive data
+  req.data.password = undefined;
+  req.data.salt = undefined;
+  req.data.loginToken = undefined;
   res.jsonp({
     status: 200,
     data: req.data ? req.data : []

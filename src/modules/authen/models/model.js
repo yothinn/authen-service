@@ -138,7 +138,7 @@ ModelSchema.pre("save", function(next) {
   var user = this;
   var round = 13;
   this.salt = bcrypt.genSaltSync(round);
-  if(user.password){
+  if(this.isModified('password')){
     bcrypt.hash(user.password, this.salt, function(err, hash) {
       if (err) {
         return next(err);
