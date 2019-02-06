@@ -286,7 +286,7 @@ describe(_model + " Authentication routes tests", function () {
                 if (err) {
                   return done(err);
                 }
-                done();
+                done(); 
               });
           });
       });
