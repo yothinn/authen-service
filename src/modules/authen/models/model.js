@@ -138,13 +138,18 @@ ModelSchema.pre("save", function(next) {
   var user = this;
   var round = 13;
   this.salt = bcrypt.genSaltSync(round);
-  bcrypt.hash(user.password, this.salt, function(err, hash) {
-    if (err) {
-      return next(err);
-    }
-    user.password = hash;
+  if(user.password){
+    bcrypt.hash(user.password, this.salt, function(err, hash) {
+      if (err) {
+        return next(err);
+      }
+      user.password = hash;
+      next();
+    });
+  }else{
     next();
-  });
+  }
+  
 });
 
 mongoose.model(Model, ModelSchema);
