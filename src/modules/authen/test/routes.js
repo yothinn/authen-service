@@ -258,6 +258,8 @@ describe(_model + " Authentication routes tests", function () {
 
         credentials.ref1 = "1234567890123";
         credentials.adminKey = "1234567890123";
+
+
         request(app)
           .put("/api/me")
           .set("Authorization", "Bearer " + res.body.token)
@@ -286,93 +288,11 @@ describe(_model + " Authentication routes tests", function () {
                 if (err) {
                   return done(err);
                 }
-                done(); 
+                var resp2 = res.body;
+                done();
               });
           });
       });
-  });
-
-  xit("should be " + _model + " manage users profile use admin token", function (
-    done
-  ) {
-    credentials = {
-      username: "admin1",
-      password: "admin1",
-      firstname: "admin1",
-      lastname: "mymarket",
-      roles: ["admin"],
-      provider: "local",
-      email: "admin1@email.com"
-    };
-
-    var user = {
-      username: "user1",
-      password: "1",
-      firstname: "u1",
-      lastname: "lu1",
-      email: "u1@email.com",
-      ref1: "1234567890123"
-    };
-    var admin = new Model(credentials);
-    admin.save(function (err) {
-      should.not.exist(err);
-
-      request(app)
-        .post("/api/auth/signin")
-        .send(credentials)
-        .expect(200)
-        .end(function (err, res) {
-          if (err) {
-            return done(err);
-          }
-          var token = res.body.token;
-          request(app)
-            .post("/api/users")
-            .set("Authorization", "Bearer " + token)
-            .send(user)
-            .expect(200)
-            .end(function (err, res) {
-              if (err) {
-                return done(err);
-              }
-              var resp = res.body;
-              assert.equal(resp.status, 200);
-              assert.equal(resp.data.username, user.username);
-              assert.equal(resp.data.firstname, user.firstname);
-              assert.equal(resp.data.lastname, user.lastname);
-              assert.equal(resp.data.email, user.email);
-              assert.equal(
-                resp.data.displayname,
-                user.firstname + " " + user.lastname
-              );
-              assert.equal(resp.data.ref1, user.ref1);
-              user.ref2 = "test update"
-              request(app)
-                .put("/api/users/" + resp.data._id)
-                .set("Authorization", "Bearer " + token)
-                .send(user)
-                .expect(200)
-                .end(function (err, res) {
-                  if (err) {
-                    return done(err);
-                  }
-                  var respUpd = res.body;
-                  assert.equal(respUpd.status, 200);
-                  assert.equal(respUpd.data.username, user.username);
-                  assert.equal(respUpd.data.firstname, user.firstname);
-                  assert.equal(respUpd.data.lastname, user.lastname);
-                  assert.equal(respUpd.data.email, user.email);
-                  assert.equal(
-                    respUpd.data.displayname,
-                    user.firstname + " " + user.lastname
-                  );
-                  assert.equal(respUpd.data.ref1, user.ref1);
-                  assert.equal(respUpd.data.ref2, user.ref2);
-                  done();
-                });
-            });
-        });
-    });
   });
 
 

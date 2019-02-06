@@ -64,6 +64,10 @@ exports.me = function (req, res, next) {
       });
     } else {
       req.data = data ? data : {};
+      //Remove sensitive data
+      req.data.password = undefined;
+      req.data.salt = undefined;
+      req.data.loginToken = undefined;
       next();
     }
   });
@@ -85,17 +89,16 @@ exports.getByID = function (req, res, next, id) {
       });
     } else {
       req.data = data ? data : {};
+      //Remove sensitive data
+      req.data.password = undefined;
+      req.data.salt = undefined;
+      req.data.loginToken = undefined;
       next();
     }
   });
 };
 
 exports.read = function (req, res) {
-  //Remove sensitive data
-  delete req.data.password;
-  delete req.data.salt;
-  delete req.data.loginToken;
-
   res.jsonp({
     status: 200,
     data: req.data ? req.data : []
@@ -109,9 +112,8 @@ exports.update = function (req, res) {
   if (roles.indexOf("admin") == -1) {
     delete req.body.roles;
   }
-  // delete req.body.password //pure update 
   var mongooseModel = _.extend(req.data, req.body);
-  delete mongooseModel.password;
+
   mongooseModel.updated = new Date();
   mongooseModel.updateby = req.user;
   mongooseModel.save(function (err, data) {
