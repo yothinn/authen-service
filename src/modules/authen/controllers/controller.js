@@ -109,8 +109,9 @@ exports.update = function (req, res) {
   if (roles.indexOf("admin") == -1) {
     delete req.body.roles;
   }
-  delete req.body.password //pure update 
+  // delete req.body.password //pure update 
   var mongooseModel = _.extend(req.data, req.body);
+  delete mongooseModel.password;
   mongooseModel.updated = new Date();
   mongooseModel.updateby = req.user;
   mongooseModel.save(function (err, data) {

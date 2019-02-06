@@ -9,8 +9,8 @@ var request = require("supertest"),
 
 var credentials;
 
-describe(_model + " Authentication routes tests", function() {
-  before(function(done) {
+describe(_model + " Authentication routes tests", function () {
+  before(function (done) {
     credentials = {
       username: "username",
       password: "password",
@@ -21,12 +21,12 @@ describe(_model + " Authentication routes tests", function() {
     done();
   });
 
-  it("should be " + _model + " signup", function(done) {
+  it("should be " + _model + " signup", function (done) {
     request(app)
       .post("/api/auth/signup")
       .send(credentials)
       .expect(200)
-      .end(function(err, res) {
+      .end(function (err, res) {
         if (err) {
           return done(err);
         }
@@ -37,12 +37,12 @@ describe(_model + " Authentication routes tests", function() {
       });
   });
 
-  it("should be " + _model + " signin", function(done) {
+  it("should be " + _model + " signin", function (done) {
     request(app)
       .post("/api/auth/signin")
       .send(credentials)
       .expect(200)
-      .end(function(err, res) {
+      .end(function (err, res) {
         if (err) {
           return done(err);
         }
@@ -53,7 +53,7 @@ describe(_model + " Authentication routes tests", function() {
       });
   });
 
-  it("should be " + _model + " signup with role admin", function(done) {
+  it("should be " + _model + " signup with role admin", function (done) {
     credentials = {
       username: "admin",
       password: "password",
@@ -66,7 +66,7 @@ describe(_model + " Authentication routes tests", function() {
       .post("/api/auth/signup")
       .send(credentials)
       .expect(200)
-      .end(function(err, res) {
+      .end(function (err, res) {
         assert.equal(res.body.status, 200);
         assert.notEqual(res.body.token, null);
 
@@ -74,7 +74,7 @@ describe(_model + " Authentication routes tests", function() {
           .get("/api/me")
           .set("Authorization", "Bearer " + res.body.token)
           .expect(200)
-          .end(function(err, res) {
+          .end(function (err, res) {
             if (err) {
               return done(err);
             }
@@ -96,7 +96,7 @@ describe(_model + " Authentication routes tests", function() {
 
   it(
     "should be " + _model + " signup duplicate username (status 400)",
-    function(done) {
+    function (done) {
       credentials = {
         username: "username",
         password: "password",
@@ -108,7 +108,7 @@ describe(_model + " Authentication routes tests", function() {
         .post("/api/auth/signup")
         .send(credentials)
         .expect(400)
-        .end(function(err, res) {
+        .end(function (err, res) {
           assert.notEqual(
             res.body.message.toLowerCase().indexOf("username already exists"),
             -1
@@ -118,7 +118,7 @@ describe(_model + " Authentication routes tests", function() {
     }
   );
 
-  it("should be " + _model + " signup duplicate email (status 400)", function(
+  it("should be " + _model + " signup duplicate email (status 400)", function (
     done
   ) {
     credentials = {
@@ -133,7 +133,7 @@ describe(_model + " Authentication routes tests", function() {
       .post("/api/auth/signup")
       .send(credentials)
       .expect(400)
-      .end(function(err, res) {
+      .end(function (err, res) {
         assert.notEqual(
           res.body.message.toLowerCase().indexOf("email already exists"),
           -1
@@ -144,7 +144,7 @@ describe(_model + " Authentication routes tests", function() {
 
   it(
     "should be " + _model + " signup if no firstname is provided (status 400)",
-    function(done) {
+    function (done) {
       credentials = {
         username: "username1",
         password: "password",
@@ -157,7 +157,7 @@ describe(_model + " Authentication routes tests", function() {
         .post("/api/auth/signup")
         .send(credentials)
         .expect(400)
-        .end(function(err, res) {
+        .end(function (err, res) {
           assert.notEqual(
             res.body.message
               .toLowerCase()
@@ -171,7 +171,7 @@ describe(_model + " Authentication routes tests", function() {
 
   it(
     "should be " + _model + " signup if no lastname is provided (status 400)",
-    function(done) {
+    function (done) {
       credentials = {
         username: "username1",
         password: "password",
@@ -184,7 +184,7 @@ describe(_model + " Authentication routes tests", function() {
         .post("/api/auth/signup")
         .send(credentials)
         .expect(400)
-        .end(function(err, res) {
+        .end(function (err, res) {
           assert.notEqual(
             res.body.message
               .toLowerCase()
@@ -196,7 +196,7 @@ describe(_model + " Authentication routes tests", function() {
     }
   );
 
-  it("should be " + _model + " get profile logged in use token", function(
+  it("should be " + _model + " get profile logged in use token", function (
     done
   ) {
     credentials = {
@@ -210,7 +210,7 @@ describe(_model + " Authentication routes tests", function() {
       .post("/api/auth/signin")
       .send(credentials)
       .expect(200)
-      .end(function(err, res) {
+      .end(function (err, res) {
         if (err) {
           return done(err);
         }
@@ -218,7 +218,7 @@ describe(_model + " Authentication routes tests", function() {
           .get("/api/me")
           .set("Authorization", "Bearer " + res.body.token)
           .expect(200)
-          .end(function(err, res) {
+          .end(function (err, res) {
             if (err) {
               return done(err);
             }
@@ -237,7 +237,7 @@ describe(_model + " Authentication routes tests", function() {
       });
   });
 
-  it("should be " + _model + " update profile regitered use token", function(
+  it("should be " + _model + " update profile regitered use token", function (
     done
   ) {
     credentials = {
@@ -251,7 +251,7 @@ describe(_model + " Authentication routes tests", function() {
       .post("/api/auth/signin")
       .send(credentials)
       .expect(200)
-      .end(function(err, res) {
+      .end(function (err, res) {
         if (err) {
           return done(err);
         }
@@ -263,7 +263,7 @@ describe(_model + " Authentication routes tests", function() {
           .set("Authorization", "Bearer " + res.body.token)
           .send(credentials)
           .expect(200)
-          .end(function(err, res) {
+          .end(function (err, res) {
             if (err) {
               return done(err);
             }
@@ -278,12 +278,21 @@ describe(_model + " Authentication routes tests", function() {
               credentials.firstname + " " + credentials.lastname
             );
             assert.equal(resp.data.ref1, credentials.ref1);
-            done();
+            request(app)
+              .post("/api/auth/signin")
+              .send(credentials)
+              .expect(200)
+              .end(function (err, res) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
           });
       });
   });
 
-  xit("should be " + _model + " manage users profile use admin token", function(
+  xit("should be " + _model + " manage users profile use admin token", function (
     done
   ) {
     credentials = {
@@ -305,14 +314,14 @@ describe(_model + " Authentication routes tests", function() {
       ref1: "1234567890123"
     };
     var admin = new Model(credentials);
-    admin.save(function(err) {
+    admin.save(function (err) {
       should.not.exist(err);
 
       request(app)
         .post("/api/auth/signin")
         .send(credentials)
         .expect(200)
-        .end(function(err, res) {
+        .end(function (err, res) {
           if (err) {
             return done(err);
           }
@@ -322,7 +331,7 @@ describe(_model + " Authentication routes tests", function() {
             .set("Authorization", "Bearer " + token)
             .send(user)
             .expect(200)
-            .end(function(err, res) {
+            .end(function (err, res) {
               if (err) {
                 return done(err);
               }
@@ -343,7 +352,7 @@ describe(_model + " Authentication routes tests", function() {
                 .set("Authorization", "Bearer " + token)
                 .send(user)
                 .expect(200)
-                .end(function(err, res) {
+                .end(function (err, res) {
                   if (err) {
                     return done(err);
                   }
@@ -366,7 +375,8 @@ describe(_model + " Authentication routes tests", function() {
     });
   });
 
-  after(function(done) {
+
+  after(function (done) {
     Model.remove().exec(done);
   });
 });
