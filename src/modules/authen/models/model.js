@@ -76,15 +76,15 @@ var ModelSchema = new Schema({
   },
   refnum3: {
     type: Number,
-    default: 0
+    // default: 0
   },
   refnum4: {
     type: Number,
-    default: 0
+    // default: 0
   },
   refnum5: {
     type: Number,
-    default: 0
+    // default: 0
   },
   salt: {
     type: String
