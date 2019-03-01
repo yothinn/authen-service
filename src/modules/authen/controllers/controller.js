@@ -3,6 +3,7 @@ var mongoose = require("mongoose"),
   passport = require("passport"),
   _model = require("../models/model").model,
   Model = mongoose.model(_model),
+  mq = require('../../core/controllers/rabbitmq'),
   errorHandler = require("../../core/controllers/errors.server.controller"),
   _ = require("lodash"),
   jwt = require("jsonwebtoken"),
@@ -181,6 +182,18 @@ exports.signup = function (req, res, next) {
     }
   });
 };
+
+exports.getuserReservations = function (iduser) {
+  console.log('>>>>>',iduser)
+  Model.findById(iduser,function (err,data) {
+    if (err) {
+     console.log(err)
+    } else {
+      console.log('xxxxxxxxx',data.ref1);
+      mq.publish('casan1', 'datauser_success', data.ref1.toString())
+    }
+  })
+}
 
 exports.signin = function (req, res, next) {
   passport.authenticate("local", function (err, user, info) {
