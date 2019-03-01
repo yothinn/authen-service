@@ -190,6 +190,7 @@ exports.getuserReservations = function (iduser) {
      console.log(err)
     } else {
       console.log('xxxxxxxxx',data.ref1);
+      
       mq.publish('casan1', 'datauser_success', data.ref1.toString())
     }
   })
