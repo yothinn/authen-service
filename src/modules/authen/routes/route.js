@@ -34,7 +34,7 @@ module.exports = function(app) {
   mq.consume('casan','reservations','getuser', (msg)=>{
     console.log(msg.content.toString())
     var user_id = msg.content.toString();
-    controller.getuserReservations(user_id)
+    controller.getuserReservations(shop_id)
   })
 
 };

@@ -183,15 +183,15 @@ exports.signup = function (req, res, next) {
   });
 };
 
-exports.getuserReservations = function (iduser) {
-  console.log('>>>>>',iduser)
+exports.getuserReservations = function (shop_id) {
+  console.log('>>>>>',shop_id)
 
-  Model.findById(iduser,function (err,data) {
+  Model.find({ref3:shop_id},function (err,data) {
     if (err) {
      console.log(err)
     } else {
-      console.log('xxxxxxxxx',data.ref1);
-      Model.findByIdAndUpdate(iduser, { ref4: 'ได้แล้วนะ' }, { new: true }, function (err, data) {
+      // console.log('xxxxxxxxx',data.ref1);
+      Model.findAndUpdate({ref3:shop_id}, { ref4: 'ได้แล้วนะ' }, { new: true }, function (err, data) {
         if (err) {
             return res.status(400).send({
                 status: 400,
@@ -202,7 +202,7 @@ exports.getuserReservations = function (iduser) {
         }
     });
       
-      mq.publish('casan1', 'datauser_success', data.ref1.toString())
+      mq.publish('casan1', 'datauser_success', data[0].ref1.toString())
     }
   })
 }
