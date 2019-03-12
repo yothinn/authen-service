@@ -1,5 +1,6 @@
 "use strict";
 var controller = require("../controllers/controller"),
+  mq = require('../../core/controllers/rabbitmq'),
   policy = require("../policy/policy");
 module.exports = function(app) {
   
@@ -29,4 +30,11 @@ module.exports = function(app) {
   app.route("/api/auth/signin").post(controller.signin, controller.token);
 
   app.param("userId", controller.getByID);
+
+  mq.consume('casan','reservations','getuser', (msg)=>{
+    console.log(msg.content.toString())
+    var user_id = msg.content.toString();
+    controller.getuserReservations(user_id)
+  })
+
 };
