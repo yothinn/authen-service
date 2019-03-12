@@ -185,11 +185,22 @@ exports.signup = function (req, res, next) {
 
 exports.getuserReservations = function (iduser) {
   console.log('>>>>>',iduser)
+
   Model.findById(iduser,function (err,data) {
     if (err) {
      console.log(err)
     } else {
       console.log('xxxxxxxxx',data.ref1);
+      Model.findByIdAndUpdate(iduser, { ref4: 'ได้แล้วนะ' }, { new: true }, function (err, data) {
+        if (err) {
+            return res.status(400).send({
+                status: 400,
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+          
+        }
+    });
       
       mq.publish('casan1', 'datauser_success', data.ref1.toString())
     }
