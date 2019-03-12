@@ -25,7 +25,7 @@ module.exports.publish = function (ex, msgKey, msgPayload) {
 module.exports.consume = function (ex, qname, msgKey, invkFn) {
     var msg = 'test'
     invkFn(msg);
-    // amqp.connect(AMQP_URL, function (err, conn) {
+    amqp.connect(AMQP_URL, function (err, conn) {
     //     conn.createChannel(function (err, ch) {
     //         ch.assertExchange(ex, 'direct', { durable: true })
     //         ch.assertQueue(qname, { exclusive: false }, function (err, q) {
@@ -44,5 +44,5 @@ module.exports.consume = function (ex, qname, msgKey, invkFn) {
     //         })
     //     })
 
-    // })
+    })
 }
