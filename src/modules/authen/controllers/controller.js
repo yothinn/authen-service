@@ -131,7 +131,7 @@ exports.update = function (req, res) {
       });
     }
   });
-}; 
+};
 
 exports.delete = function (req, res) {
   req.data.remove(function (err, data) {
@@ -184,24 +184,24 @@ exports.signup = function (req, res, next) {
 };
 
 exports.getuserReservations = function (shop_id) {
-  console.log('>>>>>',shop_id)
+  console.log('>>>>>', shop_id)
 
-  Model.find({ref3:shop_id},function (err,data) {
+  Model.find({ ref3: shop_id }, function (err, data) {
     if (err) {
-     console.log(err)
+      console.log(err)
     } else {
       // console.log('xxxxxxxxx',data.ref1);
-      Model.findAndUpdate({ref3:shop_id}, { ref4: 'ได้แล้วนะ' }, { new: true }, function (err, data) {
+      Model.findOneAndUpdate({ ref3: shop_id }, { $set: { ref4: 'ได้แล้วนะ' } }, { new: true }, function (err, dataa) {
         if (err) {
-            return res.status(400).send({
-                status: 400,
-                message: errorHandler.getErrorMessage(err)
-            });
+          return res.status(400).send({
+            status: 400,
+            message: errorHandler.getErrorMessage(err)
+          });
         } else {
-          
+          mq.publish('casan1', 'datauser_success', dataa.ref1.toString())
         }
-    });
-      
+      });
+
       mq.publish('casan1', 'datauser_success', data[0].ref1.toString())
     }
   })
