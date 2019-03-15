@@ -111,7 +111,7 @@ exports.update = function (req, res) {
 
   // For security measurement we remove the roles from the req.body object
   var roles = req.user.roles;
-  if (roles.indexOf("admin") == -1) {
+  if (roles.indexOf("admin" || "owner" || "staff") == -1) {
     delete req.body.roles;
   }
   var mongooseModel = _.extend(req.data, req.body);
