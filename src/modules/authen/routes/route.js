@@ -31,10 +31,16 @@ module.exports = function(app) {
 
   app.param("userId", controller.getByID);
 
-  mq.consume('casan','reservations','getuser', (msg)=>{
+  // mq.consume('casan','reservations','getuser', (msg)=>{
+  //   console.log(msg.content.toString())
+  //   var user_id = msg.content.toString();
+  //   controller.getuserReservations(shop_id)
+  // })
+  mq.consume('casan','apporve','updatestatus', (msg)=>{
     console.log(msg.content.toString())
-    var user_id = msg.content.toString();
-    controller.getuserReservations(shop_id)
+    console.log(JSON.parse(msg.content))
+    var user = JSON.parse(msg.content);
+    controller.updateStatusToOwnerAndStaff(user);
   })
 
 };
