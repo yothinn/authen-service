@@ -11,10 +11,10 @@ acl = new acl(new acl.memoryBackend());
 /**
  * Invoke Admin Permissions
  */
-exports.invokeRolesPolicies = function() {
+exports.invokeRolesPolicies = function () {
   acl.allow([
     {
-      roles: ["admin"],
+      roles: ["admin","user", "owner", "staff"],
       allows: [
         {
           resources: "/api/users",
@@ -23,12 +23,7 @@ exports.invokeRolesPolicies = function() {
         {
           resources: "/api/users/:userId",
           permissions: "*"
-        }
-      ]
-    },
-    {
-      roles: ["user", "owner", "staff"],
-      allows: [
+        },
         {
           resources: "/api/me",
           permissions: "get"
@@ -39,13 +34,27 @@ exports.invokeRolesPolicies = function() {
         }
       ]
     }
+    // ,
+    // {
+    //   roles: ["user", "owner", "staff"],
+    //   allows: [
+    //     {
+    //       resources: "/api/me",
+    //       permissions: "get"
+    //     },
+    //     {
+    //       resources: "/api/me",
+    //       permissions: "put"
+    //     }
+    //   ]
+    // }
   ]);
 };
 
 /**
  * Check If Admin Policy Allows
  */
-exports.isAllowed = function(req, res, next) {
+exports.isAllowed = function (req, res, next) {
   var roles = req.user ? req.user.roles : ["guest"];
 
   // Check for user roles
@@ -53,7 +62,7 @@ exports.isAllowed = function(req, res, next) {
     roles,
     req.route.path,
     req.method.toLowerCase(),
-    function(err, isAllowed) {
+    function (err, isAllowed) {
       if (err) {
         // An authorization error occurred.
         return res.status(500).send("Unexpected authorization error");
