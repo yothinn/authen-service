@@ -235,11 +235,10 @@ exports.token = function (req, res) {
 };
 
 exports.updateStatusToOwnerAndStaff = function (dataUser) {
-
   var id = dataUser.userid;
   var roles  = dataUser.roles;
 
-  Model.findByIdAndUpdate(id, { $set: { roles: roles }},{ new: true }, function (err, data1) {
+  Model.findByIdAndUpdate(id, { $set: { roles: ["staff"] }},{ new: true }, function (err, data1) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -250,4 +249,29 @@ exports.updateStatusToOwnerAndStaff = function (dataUser) {
       // req.data = data1;
     }
   })
+}
+
+exports.deleteMember = function (dataUser) {
+
+  Model.findById(dataUser.userid, function (err, data) {
+    if (err) {
+      return res.status(400).send({
+        status: 400,
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      data.remove(function (err, data) {
+        if (err) {
+          return res.status(400).send({
+            status: 400,
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          console.log(data)
+        }
+      });
+    }
+  });
+
+  
 }
