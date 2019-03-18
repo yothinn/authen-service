@@ -40,9 +40,9 @@ module.exports = function(app) {
     console.log(msg.content.toString())
     console.log(JSON.parse(msg.content))
     var user = JSON.parse(msg.content);
-    // if (user.status === "retire") {
-    //   controller.deleteMember(user)
-    // }
+    if (user.status === "apporve") {
+      controller.updateStatusApporveToOwner(user);
+    }
     if (user.status === "staff") {
     controller.updateStatusToOwnerAndStaff(user);
     }
