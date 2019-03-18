@@ -233,3 +233,21 @@ exports.token = function (req, res) {
     token: user.loginToken
   });
 };
+
+exports.updateStatusToOwnerAndStaff = function (dataUser) {
+
+  var id = dataUser.userid;
+  var roles  = dataUser.roles;
+
+  Model.findByIdAndUpdate(id, { $set: { roles: roles }},{ new: true }, function (err, data1) {
+    if (err) {
+      return res.status(400).send({
+        status: 400,
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      console.log(data1);
+      // req.data = data1;
+    }
+  })
+}
