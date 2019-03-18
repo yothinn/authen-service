@@ -251,27 +251,21 @@ exports.updateStatusToOwnerAndStaff = function (dataUser) {
   })
 }
 
-exports.deleteMember = function (dataUser) {
+exports.updateStatusApporveToOwner = function (datateam) {
 
-  Model.findById(dataUser.userid, function (err, data) {
+  var id = datateam.userid;
+  var statused = datateam.status;
+
+  Model.findByIdAndUpdate(id, { $set: { status: statused }},{ new: true }, function (err, data1) {
     if (err) {
       return res.status(400).send({
         status: 400,
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      data.remove(function (err, data) {
-        if (err) {
-          return res.status(400).send({
-            status: 400,
-            message: errorHandler.getErrorMessage(err)
-          });
-        } else {
-          console.log(data)
-        }
-      });
+      console.log(data1);
+      // req.data = data1;
     }
-  });
-
+  })
   
 }
