@@ -256,7 +256,7 @@ exports.updateStatusApporveToOwner = function (datateam) {
   var id = datateam.userid;
   var statused = datateam.status;
 
-  Model.findByIdAndUpdate(id, { $set: { status: statused }},{ new: true }, function (err, data1) {
+  Model.findByIdAndUpdate(id, { $set: { roles: ["owner"] }},{ new: true }, function (err, data1) {
     if (err) {
       return res.status(400).send({
         status: 400,
