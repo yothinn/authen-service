@@ -9,7 +9,7 @@ var bcrypt = require("bcrypt");
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-var validateLocalStrategyEmail = function(email) {
+var validateLocalStrategyEmail = function (email) {
   return (
     (this.provider !== "local" && !this.updated) || validator.isEmail(email)
   );
@@ -99,7 +99,7 @@ var ModelSchema = new Schema({
     type: [
       {
         type: String,
-        enum: ["user", "staff", "owner", "admin"]
+        enum: ["user", "staff", "owner", "admin", "stockstaff", "packstaff"]
       }
     ],
     default: ["user"],
@@ -149,22 +149,22 @@ var ModelSchema = new Schema({
 });
 
 //hashing a password before saving it to the database
-ModelSchema.pre("save", function(next) {
+ModelSchema.pre("save", function (next) {
   var user = this;
   var round = 13;
   this.salt = bcrypt.genSaltSync(round);
-  if(this.isModified('password')){
-    bcrypt.hash(user.password, this.salt, function(err, hash) {
+  if (this.isModified('password')) {
+    bcrypt.hash(user.password, this.salt, function (err, hash) {
       if (err) {
         return next(err);
       }
       user.password = hash;
       next();
     });
-  }else{
+  } else {
     next();
   }
-  
+
 });
 
 mongoose.model(Model, ModelSchema);
