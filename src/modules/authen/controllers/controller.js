@@ -236,19 +236,34 @@ exports.token = function (req, res) {
 
 exports.updateStatusToOwnerAndStaff = function (dataUser) {
   var id = dataUser.userid;
-  var roles  = dataUser.roles;
+  var roles = dataUser.roles;
 
-  Model.findByIdAndUpdate(id, { $set: { roles: ["staff"] }},{ new: true }, function (err, data1) {
-    if (err) {
-      return res.status(400).send({
-        status: 400,
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      console.log(data1);
-      // req.data = data1;
-    }
-  })
+  if (dataUser.statusmember === "approve") {
+    Model.findByIdAndUpdate(id, { $set: { roles: ["staff"], statusmember: ["approve"] } }, { new: true }, function (err, data1) {
+      if (err) {
+        return res.status(400).send({
+          status: 400,
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        console.log(data1);
+      }
+    })
+  }
+
+  if (dataUser.statusmember === "retire") {
+    Model.findByIdAndUpdate(id, { $set: { ref1: '', statusmember: ["retire"] } }, { new: true }, function (err, data1) {
+      if (err) {
+        return res.status(400).send({
+          status: 400,
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        console.log(data1);
+      }
+    })
+  }
+
 }
 
 exports.updateStatusApporveToOwner = function (datateam) {
@@ -256,7 +271,7 @@ exports.updateStatusApporveToOwner = function (datateam) {
   var id = datateam.userid;
   var statused = datateam.status;
 
-  Model.findByIdAndUpdate(id, { $set: { roles: ["owner"] }},{ new: true }, function (err, data1) {
+  Model.findByIdAndUpdate(id, { $set: { roles: ["owner"] } }, { new: true }, function (err, data1) {
     if (err) {
       return res.status(400).send({
         status: 400,
@@ -267,5 +282,5 @@ exports.updateStatusApporveToOwner = function (datateam) {
       // req.data = data1;
     }
   })
-  
+
 }
