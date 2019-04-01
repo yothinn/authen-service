@@ -16,6 +16,11 @@ var validateLocalStrategyEmail = function (email) {
 };
 
 var ModelSchema = new Schema({
+  statusmember: {
+    type: String,
+    enum: ['waitapprove', 'approve','retire'],
+    default: ['waitapprove']
+  },
   firstname: {
     type: String,
     trim: true,
