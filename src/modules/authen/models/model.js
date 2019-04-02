@@ -18,16 +18,27 @@ var validateLocalStrategyEmail = function (email) {
 var ModelSchema = new Schema({
   statusmember: {
     type: String,
-    enum: ['waitapprove', 'approve','retire'],
+    enum: ['waitapprove', 'approve', 'retire'],
     default: ['waitapprove']
   },
-  historyaboutteam:{
-    type:[{
-      teamname:{
-        type:String
+  remarkrejectteam: {
+    type: [{
+      datereject: {
+        type: Date,
+        default: Date.now
       },
-      teamid:{
-        type:String
+      remark: {
+        type: String
+      }
+    }]
+  },
+  historyaboutteam: {
+    type: [{
+      teamname: {
+        type: String
+      },
+      teamid: {
+        type: String
       },
       datereject: {
         type: Date,

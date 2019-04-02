@@ -37,9 +37,7 @@ module.exports = function (app) {
     console.log(msg.content.toString())
     console.log(JSON.parse(msg.content))
     var user = JSON.parse(msg.content);
-    if (user.status === "approve") {
-      controller.updateStatusApporveToOwner(user);
-    }
+    controller.updateStatusApporveToOwner(user);
   })
   mq.consume('casanteam', 'apporveteam', 'updatestatusteam', (msg) => {
     console.log(msg.content.toString())
