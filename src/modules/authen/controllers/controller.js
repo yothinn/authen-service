@@ -259,7 +259,28 @@ exports.updateStatusToOwnerAndStaff = function (dataUser) {
           message: errorHandler.getErrorMessage(err)
         });
       } else {
-        console.log(data1);
+        // console.log(data1);
+        Model.findByIdAndUpdate(id,
+          {
+            $push:
+            {
+              historyaboutteam:
+              {
+                teamname: dataUser.teamname,
+                teamid: dataUser.teamid
+              }
+            }
+          },
+          { new: true }, function (err, data) {
+            if (err) {
+              return res.status(400).send({
+                status: 400,
+                message: errorHandler.getErrorMessage(err)
+              });
+            } else {
+              console.log('push history :',data)
+            }
+          })
       }
     })
   }
@@ -284,3 +305,4 @@ exports.updateStatusApporveToOwner = function (datateam) {
   })
 
 }
+
