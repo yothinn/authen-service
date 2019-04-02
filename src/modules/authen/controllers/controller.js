@@ -278,7 +278,7 @@ exports.updateStatusToOwnerAndStaff = function (dataUser) {
                 message: errorHandler.getErrorMessage(err)
               });
             } else {
-              console.log('push history :',data)
+              console.log('push history :', data)
             }
           })
       }
@@ -290,19 +290,32 @@ exports.updateStatusToOwnerAndStaff = function (dataUser) {
 exports.updateStatusApporveToOwner = function (datateam) {
 
   var id = datateam.userid;
-  var statused = datateam.status;
 
-  Model.findByIdAndUpdate(id, { $set: { roles: ["owner"] } }, { new: true }, function (err, data1) {
-    if (err) {
-      return res.status(400).send({
-        status: 400,
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      console.log(data1);
-      // req.data = data1;
-    }
-  })
+  if (datateam.status === "approve") {
+    Model.findByIdAndUpdate(id, { $set: { roles: ["owner"] } }, { new: true }, function (err, data1) {
+      if (err) {
+        return res.status(400).send({
+          status: 400,
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        console.log(data1);
+      }
+    })
+  }
+  if (datateam.status === "reject") {
+    Model.findByIdAndUpdate(id, { $push: { remarkrejectteam: { remark: datateam.remark } } }, { new: true }, function (err, data) {
+      if (err) {
+        return res.status(400).send({
+          status: 400,
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        console.log('push remark reject team:', data)
+      }
+    })
+  }
+
 
 }
 
