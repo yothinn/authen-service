@@ -21,6 +21,20 @@ var ModelSchema = new Schema({
     enum: ['waitapprove', 'approve','retire'],
     default: ['waitapprove']
   },
+  historyaboutteam:{
+    type:[{
+      teamname:{
+        type:String
+      },
+      teamid:{
+        type:String
+      },
+      datereject: {
+        type: Date,
+        default: Date.now
+      },
+    }]
+  },
   firstname: {
     type: String,
     trim: true,
