@@ -311,7 +311,17 @@ exports.updateStatusApporveToOwner = function (datateam) {
           message: errorHandler.getErrorMessage(err)
         });
       } else {
-        console.log('push remark reject team:', data)
+        // console.log('push remark reject team:', data)
+        Model.findByIdAndUpdate(id, { $set: { ref1: '' } }, { new: true }, function (err, data) {
+          if (err) {
+            return res.status(400).send({
+              status: 400,
+              message: errorHandler.getErrorMessage(err)
+            });
+          } else {
+            // console.log('push remark reject team:', data)
+          }
+        })
       }
     })
   }
