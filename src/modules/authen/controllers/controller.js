@@ -294,10 +294,10 @@ exports.updateStatusApporveToOwner = function (datateam) {
   if (datateam.status === "approve") {
     Model.findByIdAndUpdate(id, { $set: { roles: ["owner"] } }, { new: true }, function (err, data1) {
       if (err) {
-        return res.status(400).send({
-          status: 400,
-          message: errorHandler.getErrorMessage(err)
-        });
+        // return res.status(400).send({
+        //   status: 400,
+        //   message: errorHandler.getErrorMessage(err)
+        // });
       } else {
         console.log(data1);
       }
@@ -314,10 +314,10 @@ exports.updateStatusApporveToOwner = function (datateam) {
         // console.log('push remark reject team:', data)
         Model.findByIdAndUpdate(id, { $set: { ref1: '' } }, { new: true }, function (err, data) {
           if (err) {
-            return res.status(400).send({
-              status: 400,
-              message: errorHandler.getErrorMessage(err)
-            });
+            // return res.status(400).send({
+            //   status: 400,
+            //   message: errorHandler.getErrorMessage(err)
+            // });
           } else {
             // console.log('push remark reject team:', data)
           }
@@ -327,5 +327,21 @@ exports.updateStatusApporveToOwner = function (datateam) {
   }
 
 
+}
+
+exports.updateOwnerRef1 = function(data) {
+  var id = data.createby._id;
+  var ref = data._id;
+  Model.findByIdAndUpdate(id, { $set: { ref1: ref } }, { new: true }, function (err, data) {
+    if (err) {
+      // return res.status(400).send({
+      //   status: 400,
+      //   message: errorHandler.getErrorMessage(err)
+      // });
+      console.log('Error :', err)
+    } else {
+      console.log('Success :', data)
+    }
+  })
 }
 
