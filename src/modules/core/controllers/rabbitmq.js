@@ -1,8 +1,9 @@
 const amqp = require('amqplib/callback_api');
 
-const AMQP_URL = process.env.AMQP_URL || 'amqp://localhost';
+const AMQP_URL = process.env.AMQP_URL || 'amqp://18.136.211.198';
 
 const ON_DEATH = require('death');
+
 
 module.exports.publish = function (ex, msgKey, msgPayload) {
     amqp.connect(AMQP_URL, function (err, conn) {
@@ -22,27 +23,53 @@ module.exports.publish = function (ex, msgKey, msgPayload) {
         })
     });
 }
+
+
 module.exports.consume = function (ex, qname, msgKey, invkFn) {
     // var msg = 'test'
     // invkFn(msg);
     amqp.connect(AMQP_URL, function (err, conn) {
         conn.createChannel(function (err, ch) {
-            ch.assertExchange(ex, 'direct', { durable: true })
-            ch.assertQueue(qname, { exclusive: false }, function (err, q) {
-                ch.bindQueue(q.queue, ex, msgKey);
-                ch.consume(q.queue, function (msg) {
-                    invkFn(msg);
+            console.log("amqp connected");
 
-                    ON_DEATH(function (signal, err) {
-                        console.log('clear');
-                        setTimeout(function () {
-                            conn.close();
-                            process.emit(0);
-                        })
+
+
+            ch.assertExchange(ex, 'direct', { durable: true })
+            // ch.assertQueue(qname, { exclusive: false }, function (err, q) {
+
+
+
+            // })
+            ch.assertQueue(qname, {
+                exclusive: false
+            });
+
+            ch.bindQueue(qname, ex, msgKey);
+            
+
+            ch.consume(qname, function (msg) {
+                // console.log("======");
+                invkFn(msg);
+
+                ON_DEATH(function (signal, err) {
+                    console.log('clear');
+                    setTimeout(function () {
+                        conn.close();
+                        process.emit(0);
                     })
-                }, { noAck: true })
-            })
+                    
+                })
+
+
+
+            }, { noAck: true })
+
+
         })
 
     })
 }
+
+
+
+
