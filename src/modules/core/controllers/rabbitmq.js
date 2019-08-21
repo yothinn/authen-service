@@ -1,6 +1,6 @@
 const amqp = require('amqplib/callback_api');
 
-const AMQP_URL = process.env.AMQP_URL || 'amqp://18.136.211.198';
+const AMQP_URL = process.env.AMQP_URL || 'amqp://localhost';
 
 const ON_DEATH = require('death');
 
