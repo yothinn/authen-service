@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:10.14.1
 
 COPY . /src
 
