@@ -53,7 +53,7 @@ module.exports = function (app) {
     controller.updateStatusToOwnerAndStaff(user);
   })
 
-  mq.consume('School', 'School-created', 'created', (msg) => {
+  mq.consume('School', 'School-created-V3', 'created', (msg) => {
     var school = JSON.parse(msg.content);
     // console.log(school);
     controller.updateOwnerRef1(school);
