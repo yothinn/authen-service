@@ -2,6 +2,13 @@
 var controller = require("../controllers/controller"),
   mq = require('../../core/controllers/rabbitmq'),
   policy = require("../policy/policy");
+
+  const amqp = require('amqplib/callback_api');
+
+const AMQP_URL = process.env.AMQP_URL || 'amqp://18.136.211.198';
+
+const ON_DEATH = require('death');
+
 module.exports = function (app) {
 
   // for admin manage users
@@ -48,7 +55,10 @@ module.exports = function (app) {
 
   mq.consume('School', 'School-created', 'created', (msg) => {
     var school = JSON.parse(msg.content);
-    controller.updateOwnerRef1(user);
+    // console.log(school);
+    controller.updateOwnerRef1(school);
   })
+
+  
 
 };
