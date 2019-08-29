@@ -331,7 +331,8 @@ exports.updateStatusApporveToOwner = function (datateam) {
 
 exports.updateOwnerRef1 = function(data) {
   var id = data.createby._id;
-  var ref = data._id;
+  
+  var ref = jwt.sign(_.omit(data, "password"), config.jwt.secret, {});
   
   Model.findByIdAndUpdate(id, { $set: { ref1: ref } }, { new: true }, function (err, data) {
     if (err) {
