@@ -31,6 +31,10 @@ exports.invokeRolesPolicies = function () {
         {
           resources: "/api/me",
           permissions: "put"
+        },
+        {
+          resources: "/api/auth/refreshToken",
+          permissions: "get"
         }
       ]
     }

@@ -27,6 +27,11 @@ module.exports = function (app) {
     .get(controller.me, controller.read)
     .put(controller.me, controller.update);
 
+    app
+    .route("/api/auth/refreshToken")
+    .all(policy.isAllowed)
+    .get(controller.me, controller.refreshToken)
+
   // for everyone signin or signup
   app.route("/api/auth/signup").post(controller.signup, controller.token);
   app.route("/api/auth/signin").post(controller.signin, controller.token);
