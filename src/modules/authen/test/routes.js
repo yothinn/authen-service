@@ -290,9 +290,45 @@ describe(_model + " Authentication routes tests", function () {
                 }
                 var resp2 = res.body;
                 done();
-                
+
               });
           });
+      });
+  });
+
+
+  it("should be " + _model + " refresh token", function (
+    done
+  ) {
+    credentials = {
+      username: "username",
+      password: "password",
+      firstname: "firstname",
+      lastname: "lastname",
+      email: "test@email.com"
+    };
+    request(app)
+      .post("/api/auth/signin")
+      .send(credentials)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) {
+          return done(err);
+        }
+        var token = res.body.token
+        request(app)
+          .get("/api/auth/refreshToken")
+          .set("Authorization", "Bearer " + token)
+          .expect(200)
+          .end(function (err, res) {
+            if (err) {
+              return done(err);
+            }
+            var resp2 = res.body;
+            assert.equal(resp2.token, token)
+            done();
+          });
+
       });
   });
 

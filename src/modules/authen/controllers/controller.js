@@ -234,6 +234,22 @@ exports.token = function (req, res) {
   });
 };
 
+exports.refreshToken = function (req, res) {
+  var user = req.data;
+  user.password = undefined;
+  user.salt = undefined;
+  user.loginToken = "";
+  user.loginToken = jwt.sign(_.omit(user, "password"), config.jwt.secret, {
+    expiresIn: 2 * 60 * 60 * 1000
+  });
+  user.loginExpires = Date.now() + 2 * 60 * 60 * 1000; // 2 hours
+  // return res.jsonp(user);
+  res.jsonp({
+    status: 200,
+    token: user.loginToken
+  });
+}
+
 exports.updateStatusToOwnerAndStaff = function (dataUser) {
   var id = dataUser.userid;
   var roles = dataUser.roles;
@@ -329,11 +345,11 @@ exports.updateStatusApporveToOwner = function (datateam) {
 
 }
 
-exports.updateOwnerRef1 = function(data) {
+exports.updateOwnerRef1 = function (data) {
   var id = data.createby._id;
-  
+
   var ref = jwt.sign(_.omit(data, "password"), config.jwt.secret, {});
-  
+
   Model.findByIdAndUpdate(id, { $set: { ref1: ref } }, { new: true }, function (err, data) {
     if (err) {
       // return res.status(400).send({
