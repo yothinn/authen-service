@@ -40,24 +40,24 @@ module.exports = function (app) {
 
 
   //rabbitMQ
-  mq.consume('casan', 'apporve', 'updatestatus', (msg) => {
-    console.log(msg.content.toString())
-    console.log(JSON.parse(msg.content))
-    var user = JSON.parse(msg.content);
-    controller.updateStatusApporveToOwner(user);
-  })
-  mq.consume('casanteam', 'apporveteam', 'updatestatusteam', (msg) => {
-    console.log(msg.content.toString())
-    console.log(JSON.parse(msg.content))
-    var user = JSON.parse(msg.content);
-    controller.updateStatusToOwnerAndStaff(user);
-  })
+  // mq.consume('casan', 'apporve', 'updatestatus', (msg) => {
+  //   console.log(msg.content.toString())
+  //   console.log(JSON.parse(msg.content))
+  //   var user = JSON.parse(msg.content);
+  //   controller.updateStatusApporveToOwner(user);
+  // })
+  // mq.consume('casanteam', 'apporveteam', 'updatestatusteam', (msg) => {
+  //   console.log(msg.content.toString())
+  //   console.log(JSON.parse(msg.content))
+  //   var user = JSON.parse(msg.content);
+  //   controller.updateStatusToOwnerAndStaff(user);
+  // })
 
-  mq.consume('School', 'School-created', 'created', (msg) => {
-    var school = JSON.parse(msg.content);
-    // console.log(school);
-    controller.updateOwnerRef1(school);
-  })
+  // mq.consume('School', 'School-created', 'created', (msg) => {
+  //   var school = JSON.parse(msg.content);
+  //   // console.log(school);
+  //   controller.updateOwnerRef1(school);
+  // })
 
   
 
