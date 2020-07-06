@@ -15,7 +15,7 @@
   "dependencies": {
     "acl": "^0.4.11",
     "amqplib": "^0.5.3",
-    "bcrypt": "^2.0.0",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.4",
     "death": "^1.1.0",
     "express": "^4.16.3",

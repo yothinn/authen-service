@@ -129,10 +129,17 @@ var ModelSchema = new Schema({
     type: [
       {
         type: String,
-        enum: ["user", "staff", "owner", "admin", "stockstaff", "packstaff"]
+        enum: [
+          "user", 
+          "staff", 
+          "owner",
+          "manager", 
+          "admin",
+          "superadmin"
+        ]
       }
     ],
-    default: ["user"],
+    default: ["staff"],
     required: "Please provide at least one role"
   },
   resetPasswordToken: {
