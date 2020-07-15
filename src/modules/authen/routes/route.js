@@ -36,8 +36,10 @@ module.exports = function (app) {
   app.route("/api/auth/signup").post(controller.signup, controller.token);
   app.route("/api/auth/signin").post(controller.signin, controller.token);
 
-  app.param("userId", controller.getByID);
+  // for superadmin add user
+  app.route("/api/auth/adduser").post(controller.adduser, controller.token);
 
+  app.param("userId", controller.getByID);
 
   //rabbitMQ
   mq.consume('casan', 'apporve', 'updatestatus', (msg) => {

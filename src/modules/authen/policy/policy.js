@@ -37,6 +37,15 @@ exports.invokeRolesPolicies = function () {
           permissions: "get"
         }
       ]
+    },
+    {
+      roles: ["superadmin"],
+      allows: [
+        {
+          resources: "/api/auth/adduser",
+          permissions: "*"
+        },
+      ]
     }
     // ,
     // {
