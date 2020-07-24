@@ -139,7 +139,7 @@ var ModelSchema = new Schema({
         ]
       }
     ],
-    default: ["staff"],
+    default: ["user"],
     required: "Please provide at least one role"
   },
   resetPasswordToken: {
