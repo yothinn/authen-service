@@ -12,7 +12,7 @@ module.exports.connection = function (cb) {
             if (cb) {
                 cb()
             } else {
-                console.log(`MongoDB Connected ${MONGODB_URI}...`);
+                console.log(`MongoDB Connected...`);
             }
         }
 
